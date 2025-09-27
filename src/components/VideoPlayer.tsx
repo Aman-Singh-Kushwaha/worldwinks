@@ -15,7 +15,7 @@ export const VideoPlayer = ({ video }: Props) => {
     <div className="border rounded-lg p-4 my-4 w-full max-w-lg mx-auto">
       <div className="aspect-w-9 aspect-h-16 bg-gray-800 rounded-md flex items-center justify-center mb-4 h-96">
         {/* <ReactPlayer url={url} playing={inView} width="100%" height="auto" /> */}
-        <p className="text-white">Video player for "{video.title}"</p>
+        <p className="text-white">Video player for &quot;{video.title}&quot;</p>
       </div>
       <div className="flex justify-between items-center">
         <div>
