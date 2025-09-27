@@ -47,5 +47,5 @@ export const walletAuth = async () => {
     throw new Error(`Sign-in failed: ${signInResponse.error}`);
   }
 
-  window.location.href = '/';
+  return signInResponse;
 };
