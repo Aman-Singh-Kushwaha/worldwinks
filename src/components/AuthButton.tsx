@@ -3,6 +3,7 @@ import { walletAuth } from "@/auth/wallet";
 import { Button } from "@worldcoin/mini-apps-ui-kit-react";
 import { useMiniKit } from "@worldcoin/minikit-js/minikit-provider";
 import { useCallback, useState } from "react";
+import toast from "react-hot-toast";
 
 export const AuthButton = () => {
   const [isPending, setIsPending] = useState(false);
@@ -17,6 +18,7 @@ export const AuthButton = () => {
       await walletAuth();
     } catch (error) {
       console.error("Wallet authentication button error", error);
+      toast.error("Login failed. Please try again.");
       setIsPending(false);
       return;
     }

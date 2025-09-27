@@ -10,15 +10,15 @@ import Credentials from 'next-auth/providers/credentials';
 declare module 'next-auth' {
   interface User {
     walletAddress: string;
-    username: string;
-    profilePictureUrl: string;
+    username?: string;
+    profilePictureUrl?: string;
   }
 
   interface Session {
     user: {
       walletAddress: string;
-      username: string;
-      profilePictureUrl: string;
+      username?: string;
+      profilePictureUrl?: string;
     } & DefaultSession['user'];
   }
 }
@@ -62,12 +62,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           console.log('Invalid final payload');
           return null;
         }
-        // Optionally, fetch the user info from your own database
-        const userInfo = await MiniKit.getUserByAddress(finalPayload.address);
-
+        
+        // OPTIMIZATION: Defer fetching user info to the client-side after login.
         return {
-          id: finalPayload.address,
-          ...userInfo,
+          id: result.siweMessageData.address,
+          walletAddress: result.siweMessageData.address,
         };
       },
     }),
@@ -77,8 +76,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         token.userId = user.id;
         token.walletAddress = user.walletAddress;
-        token.username = user.username;
-        token.profilePictureUrl = user.profilePictureUrl;
       }
 
       return token;
@@ -87,8 +84,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (token.userId) {
         session.user.id = token.userId as string;
         session.user.walletAddress = token.walletAddress as string;
-        session.user.username = token.username as string;
-        session.user.profilePictureUrl = token.profilePictureUrl as string;
       }
 
       return session;

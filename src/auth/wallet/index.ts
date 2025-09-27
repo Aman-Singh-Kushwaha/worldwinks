@@ -36,10 +36,16 @@ export const walletAuth = async () => {
   }
     console.log(result.finalPayload);
   
-  await signIn('credentials', {
-    redirectTo: '/feed',
+  const signInResponse = await signIn('credentials', {
+    redirect: false,
     nonce,
     signedNonce,
     finalPayloadJson: JSON.stringify(result.finalPayload),
   });
+
+  if (signInResponse?.error) {
+    throw new Error(`Sign-in failed: ${signInResponse.error}`);
+  }
+
+  window.location.href = '/';
 };
