@@ -1,12 +1,14 @@
 'use client';
 import { VideoMetadata } from "@/types/Video";
 import TipButton from "./TipButton";
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import { retrieveBlob } from "@/lib/walrusUtils";
 import { useInView } from 'react-intersection-observer';
-import ReactPlayer from 'react-player';
 import { useSession } from "next-auth/react";
 import { incrementView } from "@/lib/storageUtils";
+
+// Lazy load ReactPlayer
+const ReactPlayer = lazy(() => import('react-player'));
 
 interface Props { video: VideoMetadata; }
 
@@ -45,15 +47,19 @@ export const VideoPlayer = ({ video }: Props) => {
     <div ref={ref} className="border border-gray-800 rounded-lg p-4 my-8 w-full max-w-md mx-auto shadow-lg bg-gray-900/30">
       <div className="relative aspect-video bg-black rounded-md overflow-hidden mb-4">
         {url ? (
-          <ReactPlayer 
-            src={url}
-            playing={inView}
-            width="100%"
-            height="100%"
-            controls
-            muted
-            loop
-          />
+          <Suspense fallback={<div className="w-full h-full flex items-center justify-center">
+            <p className="text-white">Loading player...</p>
+          </div>}>
+            <ReactPlayer 
+              src={url}
+              playing={inView}
+              width="100%"
+              height="100%"
+              controls
+              muted
+              loop
+            />
+          </Suspense>
         ) : (
           <div className="w-full h-full flex items-center justify-center">
             <p className="text-white">Loading video...</p>

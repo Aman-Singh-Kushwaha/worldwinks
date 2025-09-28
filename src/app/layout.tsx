@@ -8,7 +8,6 @@ import { headers } from 'next/headers';
 import { Toaster } from 'react-hot-toast';
 
 export const dynamic = "force-dynamic";
-export const runtime = 'edge'; // Add this line
 
 export const metadata: Metadata = {
   title: "WorldWinks",
