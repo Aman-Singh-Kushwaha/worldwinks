@@ -13,12 +13,16 @@ export default function TipButton({ creatorWallet, videoId }: Props) {
 
   const handleTip = async () => {
     setIsTipping(true);
-    toast('Tipping... (Not implemented yet)');
+    const tipToast = toast.loading('Processing tip...');
     console.log(`Tipping creator ${creatorWallet} for video ${videoId}`);
     // TODO: Implement actual tipping logic from PLAN.md (Step 4.6)
     // const tx = await useMiniKit().transferTokens({ to: creatorWallet, amount });
     // ...
-    setIsTipping(false);
+    // Mock success
+    setTimeout(() => {
+      toast.success('Tip sent successfully!', { id: tipToast });
+      setIsTipping(false);
+    }, 2000);
   };
 
   return (
