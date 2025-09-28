@@ -4,7 +4,7 @@ import TipButton from "./TipButton";
 import { useEffect, useState } from "react";
 import { retrieveBlob } from "@/lib/walrusUtils";
 import { useInView } from 'react-intersection-observer';
-import ReactPlayer from 'react-player/lazy';
+import ReactPlayer from 'react-player';
 import { useSession } from "next-auth/react";
 import { incrementView } from "@/lib/storageUtils";
 
@@ -45,8 +45,8 @@ export const VideoPlayer = ({ video }: Props) => {
     <div ref={ref} className="border border-gray-800 rounded-lg p-4 my-8 w-full max-w-md mx-auto shadow-lg bg-gray-900/30">
       <div className="relative aspect-video bg-black rounded-md overflow-hidden mb-4">
         {url ? (
-          <ReactPlayer
-            url={url}
+          <ReactPlayer 
+            src={url}
             playing={inView}
             width="100%"
             height="100%"
